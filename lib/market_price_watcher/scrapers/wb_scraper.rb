@@ -15,8 +15,8 @@ module MarketPriceWatcher
       def get_product_details
         response = connection.get(API_HOST, build_params, build_headers)
         body = JSON.parse(response.body)
-        byebug
         product = body["data"]["products"].find { |row| row["id"] == url_params[:id]  }
+        byebug
         id = product["id"]
         total_quantity = product["totalQuantity"]
         title = product["name"]
