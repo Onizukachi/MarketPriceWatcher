@@ -1,0 +1,8 @@
+require_relative './market_price_watcher/scrapers/connection'
+require_relative './market_price_watcher/scrapers/wb_scraper'
+require_relative './market_price_watcher/storages/base_storage'
+require_relative './market_price_watcher/storages/sqlite_db'
+require_relative './market_price_watcher/configuration'
+require_relative './market_price_watcher/scraper_factory'
+require_relative './market_price_watcher/message_handler'
+require_relative './market_price_watcher/runner'
