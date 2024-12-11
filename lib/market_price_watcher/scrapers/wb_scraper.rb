@@ -1,25 +1,21 @@
 module MarketPriceWatcher
   module Scrapers
     class WbScraper
-      include Connection
+      include MarketPriceWatcher::Network::Connection
 
-      attr_accessor :url_params
+      attr_reader :url
 
       ORIGIN = 'https://www.wildberries.ru'.freeze
       API_HOST = 'https://card.wb.ru/cards/v2/detail'.freeze
 
       def initialize(url)
-        @url_params = parse_url(url)
+        @url = url
       end
 
       def get_product_details
         response = connection.get(API_HOST, build_params, build_headers)
         body = JSON.parse(response.body)
         product = body["data"]["products"].find { |row| row["id"] == url_params[:id]  }
-        byebug
-        id = product["id"]
-        total_quantity = product["totalQuantity"]
-        title = product["name"]
 
         if url_params[:size]
           size = product["sizes"].find { |row| row["optionId"] == url_params[:size] }
@@ -27,28 +23,35 @@ module MarketPriceWatcher
           size = product["sizes"].first
         end
 
+        {
+          id: product["id"],
+          title: product["name"],
+          price: size["price"]["product"],
+          total_quantity: product["totalQuantity"],
+          market: market_title
+        }
+      end
+
+      def url_params
+        @url_params ||= extract_url_params
       end
 
       private
 
-      def parse_url(url)
+      def market_title
+        'wb'
+      end
+
+      def extract_url_params
         result = {}
 
-        id = extract_id(url)
+        id = url[/(?<=catalog\/)\d+(?=\/)/]
         result.merge!(id: id.to_i) if id
 
-        size = extract_size(url)
+        size = url[/(?<=size=)\d+/]
         result.merge!(size: size.to_i) if size
 
         result
-      end
-
-      def extract_id(url)
-        url[/(?<=catalog\/)\d+(?=\/)/]
-      end
-
-      def extract_size(url)
-        url[/(?<=size=)\d+/]
       end
 
       def build_params

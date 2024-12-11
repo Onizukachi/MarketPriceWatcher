@@ -1,8 +1,10 @@
 require 'dotenv'
 require 'byebug'
-require_relative 'lib/market_prices_watcher'
+require_relative 'lib/market_price_watcher'
 
 Dotenv.load
+
+MarketPriceWatcher::DB::Migrator.new.apply
 
 bot = MarketPriceWatcher::BotRunner.new
 bot.start

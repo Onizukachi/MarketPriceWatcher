@@ -28,8 +28,8 @@
     <orderEntry type="library" scope="PROVIDED" name="logger (v1.6.0, rbenv: 3.3.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="multipart-post (v2.4.1, rbenv: 3.3.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="net-http (v0.6.0, rbenv: 3.3.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="pg (v1.5.9, rbenv: 3.3.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="socksify (v1.7.1, rbenv: 3.3.5) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="sqlite3 (v2.4.0, rbenv: 3.3.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="telegram-bot-ruby (v2.1.0, rbenv: 3.3.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="uri (v0.13.1, rbenv: 3.3.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="zeitwerk (v2.7.1, rbenv: 3.3.5) [gem]" level="application" />

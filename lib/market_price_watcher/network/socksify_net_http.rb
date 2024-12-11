@@ -1,7 +1,7 @@
 require 'socksify/http'
 
-module MarketPricsWatcher
-  module Scrapers
+module MarketPriceWatcher
+  module Network
     # redirects any TCP connection initiated by a Ruby script through a SOCKS5 proxy
     class Faraday::Adapter::NetHttp
       def net_http_connection(env)

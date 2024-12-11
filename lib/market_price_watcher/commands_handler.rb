@@ -1,10 +1,11 @@
 module MarketPriceWatcher
-  class MessageHandler
-    attr_reader :bot, :storage
+  class CommandsHandler
+    attr_reader :bot, :user_repository, :product_repository
 
-    def initialize(bot, storage)
+    def initialize(bot, user_repository, product_repository)
       @bot = bot
-      @storage = storage
+      @user_repository = user_repository
+      @product_repository = product_repository
     end
 
     def process(message)
@@ -29,9 +30,10 @@ module MarketPriceWatcher
         #
         # product_data = MarketPriceWatcher::Scrapers::WbScraper.get_product_details(extract_product_id(@message.text))
       else
-        if valid_url?(message.text)
+        if MarketPriceWatcher::Utils::UrlValidator.valid?(message.text)
           scraper = MarketPriceWatcher::ScraperFactory.create(message.text)
           product = scraper.get_product_details
+          byebug
         end
 
         byebug

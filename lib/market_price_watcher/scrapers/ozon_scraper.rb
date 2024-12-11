@@ -1,7 +1,7 @@
 module MarketPriceWatcher
   module Scrapers
     class OzonScraper
-      include Connection
+      include MarketPriceWatcher::Network::Connection
 
       attr_accessor :id
 

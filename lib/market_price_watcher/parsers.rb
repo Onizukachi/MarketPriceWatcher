@@ -1,0 +1,1 @@
+Dir.glob("#{__dir__}/parsers/**/*_parser.rb").each(&method(:require))

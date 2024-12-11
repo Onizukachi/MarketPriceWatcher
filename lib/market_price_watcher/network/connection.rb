@@ -2,7 +2,7 @@ require 'faraday'
 require_relative 'socksify_net_http'
 
 module MarketPriceWatcher
-  module Scrapers
+  module Network
     module Connection
       SSL_OPTS = { verify: false }.freeze
 
