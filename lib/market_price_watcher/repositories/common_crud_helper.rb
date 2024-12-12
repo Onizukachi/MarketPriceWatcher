@@ -2,18 +2,18 @@ module MarketPriceWatcher
   module Repositories
     module CommonCrudHelper
       def list(**arguments)
-        return connection.exec_params("SELECT * FROM #{table_name}") if arguments.empty?
+        return connection.exec_params("SELECT * FROM #{table_name}").to_a if arguments.empty?
 
-        where_condition = arguments.map { |key, _| "#{key} = ?" }.join(" AND ")
-        query = ("SELECT * FROM #{table_name} WHERE #{where_condition}")
+        where_condition = arguments.keys.map.with_index(1) { |key, index| "#{key} = $#{index}" }.join(" AND ")
+        query = "SELECT * FROM #{table_name} WHERE #{where_condition}"
 
         connection.exec_params(query, arguments.values).to_a
       end
 
       def find(id)
-        query = "SELECT * FROM #{table_name} WHERE id = ?"
+        query = "SELECT * FROM #{table_name} WHERE id = $1"
 
-        connection.exec_params(query, [id]).to_a
+        connection.exec_params(query, [id]).to_a.first
       end
 
       def create(**attributes)

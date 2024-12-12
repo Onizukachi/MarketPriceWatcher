@@ -2,19 +2,22 @@ require 'telegram/bot'
 
 module MarketPriceWatcher
   class BotRunner
-    attr_reader :bot, :storage, :commands_handler
+    attr_reader :bot, :message_handler, :callback_handler
 
     def initialize
       @bot = Telegram::Bot::Client.new(ENV['TELEGRAM_BOT_TOKEN'])
-      user_repository = MarketPriceWatcher::Repositories::UserRepository.new
-      product_repository = MarketPriceWatcher::Repositories::ProductRepository.new
-
-      @commands_handler = MarketPriceWatcher::CommandsHandler.new(bot, user_repository, product_repository)
+      @message_handler = MarketPriceWatcher::TextMessageHandler.new(bot)
+      @callback_handler = MarketPriceWatcher::CallbackHandler.new(bot)
     end
 
     def start
       bot.listen do |message|
-        commands_handler.process(message)
+        case message
+        when Telegram::Bot::Types::Message
+          message_handler.process(message)
+        when Telegram::Bot::Types::CallbackQuery
+          callback_handler.process(message)
+        end
       end
     end
   end
