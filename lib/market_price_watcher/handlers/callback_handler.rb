@@ -9,9 +9,9 @@ module MarketPriceWatcher
     def process(message)
       case message.data
       when /stop_tracking/
-        MarketPriceWatcher::UseCases::StopTracking.new(bot, message).call
+        MarketPriceWatcher::Actions::StopTracking.new(message, message_sender).call
       when /hide_products/
-        MarketPriceWatcher::UseCases::HideProducts.new(bot, message).call
+        MarketPriceWatcher::Actions::HideProducts.new(message, message_sender).call
       end
     end
   end

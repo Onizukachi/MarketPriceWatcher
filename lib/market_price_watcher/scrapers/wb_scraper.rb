@@ -1,24 +1,16 @@
 module MarketPriceWatcher
   module Scrapers
-    class WbScraper
-      include MarketPriceWatcher::Network::Connection
-
-      attr_reader :url
-
+    class WbScraper < BaseScraper
       ORIGIN = 'https://www.wildberries.ru'.freeze
       API_HOST = 'https://card.wb.ru/cards/v2/detail'.freeze
-
-      def initialize(url)
-        @url = url
-      end
 
       def get_product_details
         response = connection.get(API_HOST, build_params, build_headers)
         body = JSON.parse(response.body)
-        product = body["data"]["products"].find { |row| row["id"] == url_params[:id]  }
+        product = body["data"]["products"].find { |row| row["id"] == product_id  }
 
-        if url_params[:size]
-          size = product["sizes"].find { |row| row["optionId"] == url_params[:size] }
+        if product_size
+          size = product["sizes"].find { |row| row["optionId"] == product_id }
         else
           size = product["sizes"].first
         end
@@ -27,31 +19,22 @@ module MarketPriceWatcher
           id: product["id"],
           title: product["name"],
           price: size["price"]["product"],
-          total_quantity: product["totalQuantity"],
-          market: market_title
+          total_quantity: product["totalQuantity"]
         }
       end
 
-      def url_params
-        @url_params ||= extract_url_params
+      def product_id
+        @product_id ||= url[/(?<=catalog\/)\d+(?=\/)/]
+      end
+
+      def market
+        'wb'
       end
 
       private
 
-      def market_title
-        'wb'
-      end
-
-      def extract_url_params
-        result = {}
-
-        id = url[/(?<=catalog\/)\d+(?=\/)/]
-        result.merge!(id: id.to_i) if id
-
-        size = url[/(?<=size=)\d+/]
-        result.merge!(size: size.to_i) if size
-
-        result
+      def product_size
+        url[/(?<=size=)\d+/]
       end
 
       def build_params
@@ -63,7 +46,7 @@ module MarketPriceWatcher
           spp: '30',
           lang: 'ru',
           ab_testing: 'false',
-          nm: url_params[:id].to_s
+          nm: product_id.to_s
         }
       end
 
@@ -74,7 +57,7 @@ module MarketPriceWatcher
         headers['accept-language'] = 'ru-RU,ru;q=0.9'
         headers['origin'] = ORIGIN
         headers['priority'] = 'u=1, i'
-        headers['referer'] = "#{ORIGIN}/catalog/#{url_params[:id]}/detail.aspx"
+        headers['referer'] = "#{ORIGIN}/catalog/#{product_id}/detail.aspx"
         headers['sec-ch-ua'] = '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"'
         headers['sec-ch-ua-mobile'] = '?0'
         headers['sec-ch-ua-platform'] = '"macOS"'

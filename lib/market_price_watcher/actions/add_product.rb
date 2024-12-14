@@ -1,15 +1,9 @@
 module MarketPriceWatcher
-  module UseCases
-    class AddProduct
-      attr_reader :bot, :message
-
-      def initialize(bot, message)
-        @bot = bot
-        @message = message
-      end
+  module Actions
+    class AddProduct < BaseAction
 
       def call
-        bot.api.send_message(chat_id: message.from.id, text: text)
+        message_sender.call(chat_id: chat_id, text: text)
       end
 
       private

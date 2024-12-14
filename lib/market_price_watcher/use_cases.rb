@@ -1,1 +1,1 @@
-Dir.glob("#{__dir__}/use_cases/*").each(&method(:require))
+Dir.glob("#{__dir__}/services/*").each(&method(:require))
