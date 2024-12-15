@@ -11,7 +11,10 @@ module MarketPriceWatcher
         connection.exec_params(query, [product_id]).to_a.first
       end
 
-      private def table_name = 'price_histories'
+      private
+      def table_name
+        'price_histories'
+      end
     end
   end
 end

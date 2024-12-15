@@ -1,1 +1,0 @@
-Dir.glob("#{__dir__}/actions/**/*.rb").each(&method(:require))

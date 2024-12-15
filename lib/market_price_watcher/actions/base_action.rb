@@ -8,7 +8,11 @@ module MarketPriceWatcher
         @message_sender = message_sender
       end
 
-      private def chat_id = message.chat.id
+      private
+
+      def chat_id
+        message.chat.id
+      end
     end
   end
 end

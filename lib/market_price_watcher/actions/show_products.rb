@@ -64,7 +64,7 @@ module MarketPriceWatcher
       def show_product_text(product, index)
         <<~TEXT
           #{index}. [#{product['title']}](#{product['source_url']})
-          Текущая цена: #{MarketPriceWatcher::Utils::PriceFormatter.format(product['price'])}
+          Текущая цена: #{MarketPriceWatcher::PriceFormatter.format(product['price'])}
           Отслеживание начато: #{days_until_today(Time.parse(product['created_at']))} дня(ей) назад
         TEXT
       end

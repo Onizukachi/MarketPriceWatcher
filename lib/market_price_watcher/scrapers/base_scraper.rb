@@ -6,7 +6,11 @@ module MarketPriceWatcher
       attr_reader :url
 
       def initialize(url)
-        @url = url
+        @url = url #  URI.parse(url)
+      end
+
+      def fetch_product_details
+        raise 'Not implemented'
       end
 
       def product_id

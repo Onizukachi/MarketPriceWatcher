@@ -5,7 +5,11 @@ module MarketPriceWatcher
     class ProductRepository < BaseRepository
       include MarketPriceWatcher::Repositories::CommonCrudHelper
 
-      private def table_name = 'products'
+      private
+
+      def table_name
+        'products'
+      end
     end
   end
 end

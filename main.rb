@@ -1,4 +1,3 @@
-require 'dotenv'
 require 'byebug'
 require_relative 'lib/market_price_watcher'
 

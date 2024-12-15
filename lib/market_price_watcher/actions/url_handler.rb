@@ -4,8 +4,8 @@ module MarketPriceWatcher
       attr_accessor :product_repository, :price_history_repository
       attr_reader :scraper
 
-      def initialize(bot, message)
-        super(bot, message)
+      def initialize(message, message_sender)
+        super(message, message_sender)
 
         @scraper = MarketPriceWatcher::ScraperFactory.create(message.text)
         @product_repository = MarketPriceWatcher::Repositories::ProductRepository.new
@@ -13,16 +13,21 @@ module MarketPriceWatcher
       end
 
       def call
-        handle_invalid_url and return unless MarketPriceWatcher::Utils::UrlValidator.valid?(message.text)
+        handle_invalid_url and return unless MarketPriceWatcher::UrlValidator.valid?(message.text)
 
         db_product = find_product_in_db
 
         handle_already_tracked_product(db_product.first) and return unless db_product.empty?
 
-        new_product = scraper.get_product_details
+        new_product = scraper.fetch_product_details
+
+        # TODO:
         # передавать новый обьект надо вниз лучше
+        # проверить размеры я же трекаю чисто по айди а размеры помоему имеют разное количество на складе надо проверить в json
+
         create_product(new_product)
         create_price_history(new_product)
+        schedule_track_worker(new_product[:id])
         reply_with_success(new_product)
       end
 
@@ -52,12 +57,19 @@ module MarketPriceWatcher
         product_repository.create(id: data[:id],
                                   title: data[:title],
                                   chat_id: chat_id,
-                                  market: scraper.market,
-                                  source_url: message.text)
+                                  market: data[:market],
+                                  source_url: data[:source_url])
       end
 
       def create_price_history(data)
         price_history_repository.create(product_id: data[:id], price: data[:price])
+      end
+
+      def schedule_track_worker(product_id)
+        worker = MarketPriceWatcher::Workers::ProductTracker.new(product_id, message_sender,
+                                                                 product_repository, price_history_repository)
+
+        MarketPriceWatcher::Scheduler.instance.interval(MarketPriceWatcher.config.track_interval, worker)
       end
 
       def reply_with_success(product)
@@ -68,10 +80,10 @@ module MarketPriceWatcher
       end
 
       def start_tracking_msg(product)
-        <<-TEXT
+        <<-TEXT.gsub(/^\s+/, '')
           🎬 Начат мониторинг цены и наличия
           [#{product[:title]}](#{message.text})
-          Текущая цена: #{MarketPriceWatcher::Utils::PriceFormatter.format(product[:price])}
+          Текущая цена: #{MarketPriceWatcher::PriceFormatter.format(product[:price])}
         TEXT
       end
     end

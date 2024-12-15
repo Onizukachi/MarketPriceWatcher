@@ -1,10 +1,11 @@
 module MarketPriceWatcher
   class TextMessageHandler
-    attr_reader :bot, :message_sender
+    attr_reader :bot
+    attr_accessor :message_sender
 
-    def initialize(bot, message_sender: MarketPriceWatcher::MessageSender)
+    def initialize(bot, message_sender: MarketPriceWatcher::MessageSender.new(bot))
       @bot = bot
-      @message_sender = message_sender.new(bot)
+      @message_sender = message_sender
     end
 
     def process(message)

@@ -4,27 +4,24 @@ module MarketPriceWatcher
       ORIGIN = 'https://www.wildberries.ru'.freeze
       API_HOST = 'https://card.wb.ru/cards/v2/detail'.freeze
 
-      def get_product_details
+      def fetch_product_details
         response = connection.get(API_HOST, build_params, build_headers)
         body = JSON.parse(response.body)
-        product = body["data"]["products"].find { |row| row["id"] == product_id  }
-
-        if product_size
-          size = product["sizes"].find { |row| row["optionId"] == product_id }
-        else
-          size = product["sizes"].first
-        end
+        product = extract_product(body)
+        product_size = extract_product_size(product)
 
         {
-          id: product["id"],
-          title: product["name"],
-          price: size["price"]["product"],
-          total_quantity: product["totalQuantity"]
+          id: product['id'],
+          title: product['name'],
+          price: product_size['price']['product'],
+          total_quantity: product['totalQuantity'],
+          market: market,
+          source_url: url
         }
       end
 
       def product_id
-        @product_id ||= url[/(?<=catalog\/)\d+(?=\/)/]
+        @product_id ||= url[%r{(?<=catalog/)\d+(?=/)}].to_i
       end
 
       def market
@@ -33,8 +30,19 @@ module MarketPriceWatcher
 
       private
 
-      def product_size
-        url[/(?<=size=)\d+/]
+      # лучше разбить все параметры в шех и проверять потом по ключу
+      def query_product_size
+        url[/(?<=size=)\d+/].to_i
+      end
+
+      def extract_product(body)
+        body['data']['products'].find { |row| row['id'] == product_id }
+      end
+
+      def extract_product_size(product)
+        return product['sizes'].first unless query_product_size
+
+        product['sizes'].find { |row| row['optionId'] == query_product_size }
       end
 
       def build_params

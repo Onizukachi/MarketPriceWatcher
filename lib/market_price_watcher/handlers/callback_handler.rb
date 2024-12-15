@@ -1,9 +1,11 @@
 module MarketPriceWatcher
   class CallbackHandler
     attr_reader :bot
+    attr_accessor :message_sender
 
-    def initialize(bot)
+    def initialize(bot, message_sender: MarketPriceWatcher::MessageSender.new(bot))
       @bot = bot
+      @message_sender = message_sender
     end
 
     def process(message)
