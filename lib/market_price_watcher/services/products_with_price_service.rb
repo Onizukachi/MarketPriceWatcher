@@ -1,14 +1,16 @@
 module MarketPriceWatcher
   module Services
     class ProductsWithPriceService
-      attr_reader :product_repository, :price_history_repository
+      include MarketPriceWatcher::Import[:product_repository, :price_history_repository]
 
-      def initialize(product_repository:, price_history_repository:)
-        @product_repository = product_repository
-        @price_history_repository = price_history_repository
+      attr_reader :chat_id
+
+      def initialize(chat_id:, **deps)
+        @chat_id = chat_id
+        super(**deps)
       end
 
-      def call(chat_id)
+      def call
         products = product_repository.list(chat_id: chat_id)
         sorted_products = sort_products(products)
         add_price_to_products(sorted_products)

@@ -13,14 +13,7 @@ module MarketPriceWatcher
     end
     register(:price_history_repository) do
       MarketPriceWatcher::DB::Repositories::PriceHistoryRepository.new(db_adapter: Container.resolve(:db_adapter),
-                                                                  mapper: Container.resolve(:price_history_mapper))
-    end
-
-    register(:products_with_price_service) do
-      MarketPriceWatcher::Services::ProductsWithPriceService.new(product_repository:
-                                                                   Container.resolve(:product_repository),
-                                                                 price_history_repository:
-                                                                   Container.resolve(:price_history_repository))
+                                                                       mapper: Container.resolve(:price_history_mapper))
     end
   end
 

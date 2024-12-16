@@ -3,9 +3,8 @@ module MarketPriceWatcher
     class CallbackHandler
       attr_accessor :message_sender
 
-      def initialize(message_sender:, **deps)
+      def initialize(message_sender)
         @message_sender = message_sender
-        super(**deps)
       end
 
       def process(message)

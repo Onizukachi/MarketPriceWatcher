@@ -18,6 +18,12 @@ require_relative 'market_price_watcher/db/adapters/adapters'
 # Database repositories
 require_relative 'market_price_watcher/db/repositories/repositories'
 
+# DI Container
+require_relative 'market_price_watcher/container'
+
+# Database migrator
+require_relative 'market_price_watcher/db/migrator'
+
 # Network connection
 require_relative 'market_price_watcher/network/connection'
 
@@ -40,15 +46,8 @@ require_relative 'market_price_watcher/workers/workers'
 # Services
 require_relative 'market_price_watcher/services/services'
 
-# DI Container
-require_relative 'market_price_watcher/container'
-
-# Database migrator
-require_relative 'market_price_watcher/db/migrator'
-
 # Request Handlers
 require_relative 'market_price_watcher/handlers/handlers'
 
 # Runner
 require_relative 'market_price_watcher/runner'
-

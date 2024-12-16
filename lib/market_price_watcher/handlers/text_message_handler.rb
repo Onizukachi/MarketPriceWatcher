@@ -1,13 +1,10 @@
 module MarketPriceWatcher
   module Handlers
     class TextMessageHandler
-      include MarketPriceWatcher::Import[:products_with_price_service]
-
       attr_accessor :message_sender
 
-      def initialize(message_sender:, **deps)
+      def initialize(message_sender)
         @message_sender = message_sender
-        super(**deps)
       end
 
       def process(message)
@@ -27,8 +24,7 @@ module MarketPriceWatcher
         when /Помощь/
           help(chat_id)
         else
-          handle_url(chat_id)
-          #MarketPriceWatcher::Actions::UrlHandler.new(message, message_sender).call
+          handle_url(chat_id, message.text)
         end
       end
 
@@ -46,25 +42,25 @@ module MarketPriceWatcher
         reply_markup = MarketPriceWatcher::Keyboards[:remove].call
         text = MarketPriceWatcher::Messages[:goodbye].call
 
-        message_sender.call(chat_id: chat_id, text: text, reply_markup: reply_markup)
+        message_sender.call(chat_id:, text:, reply_markup:)
       end
 
       def show_menu(chat_id)
         reply_markup = MarketPriceWatcher::Keyboards[:main_menu].call
         text = MarketPriceWatcher::Messages[:request_url].call
 
-        message_sender.call(chat_id: chat_id, text: text, reply_markup: reply_markup)
+        message_sender.call(chat_id:, text:, reply_markup:)
       end
 
       def show_products(chat_id)
-        products = products_with_price_service.call(chat_id)
+        products = MarketPriceWatcher::Services::ProductsWithPriceService.new(chat_id:).call
 
         products.each_with_index do |product, index|
           text = MarketPriceWatcher::Messages[:show_product].call(product[:title], product[:source_url],
                                                                   product[:price], product[:created_at], index)
           reply_markup = MarketPriceWatcher::Keyboards[:inline_product].call(product[:id], product[:source_url])
 
-          message_sender.call(parse_mode: 'Markdown', chat_id: chat_id, text: text, reply_markup: reply_markup)
+          message_sender.call(parse_mode: 'Markdown', chat_id:, text:, reply_markup:)
         end
       end
 
@@ -80,8 +76,8 @@ module MarketPriceWatcher
         message_sender.call(chat_id: chat_id, text: text)
       end
 
-      def handle_url(chat_id)
-
+      def handle_url(chat_id, message)
+        MarketPriceWatcher::Services::UrlHandlerService.new(chat_id:, message:).call
       end
     end
   end

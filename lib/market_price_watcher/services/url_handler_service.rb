@@ -1,16 +1,18 @@
 module MarketPriceWatcher
   module Services
-    class ProductsWithPriceService
-      attr_reader :product_repository, :price_history_repository
+    class UrlHandlerService
+      include MarketPriceWatcher::Import[:product_repository, :price_history_repository]
 
-      def initialize(product_repository:, price_history_repository:)
-        @product_repository = product_repository
-        @price_history_repository = price_history_repository
+      attr_reader :chat_id, :message, :scraper
+
+      def initialize(chat_id:, message:, **deps)
+        @chat_id = chat_id
+        @message = message
+        @scraper = MarketPriceWatcher::ScraperFactory.create(message)
+        super(**deps)
       end
 
-      def call(chat_id, message_text)
-        scraper = MarketPriceWatcher::ScraperFactory.create(message_text)
-
+      def call
         handle_invalid_url and return unless MarketPriceWatcher::UrlValidator.valid?(message.text)
 
         db_product = find_product_in_db
