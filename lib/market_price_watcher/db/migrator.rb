@@ -1,11 +1,13 @@
 module MarketPriceWatcher
   module DB
     class Migrator
-      attr_accessor :path, :db_adapter
+      include MarketPriceWatcher::Import[:db_adapter]
 
-      def initialize(path: '/migrations', db_adapter: MarketPriceWatcher::DB::Adapters::Postgresql.instance)
+      attr_reader :path
+
+      def initialize(path: '/migrations', **deps)
         @path = path
-        @db_adapter = db_adapter
+        super(**deps)
       end
 
       def apply

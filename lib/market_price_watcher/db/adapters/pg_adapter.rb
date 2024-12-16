@@ -4,10 +4,12 @@ require 'singleton'
 module MarketPriceWatcher
   module DB
     module Adapters
-      class Postgresql < Base
+      class PgAdapter < BaseAdapter
         include Singleton
 
         def initialize
+          super
+
           build_connection
         end
 

@@ -26,17 +26,6 @@ module MarketPriceWatcher
                                                                MarketPriceWatcher::Keyboards[:stop_tracking].call(id)
                                                              ]])
           },
-          last_inline_product: lambda { |id, source_url|
-              Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: [
-                                                               [
-                                                                 MarketPriceWatcher::Keyboards[:buy].call(source_url),
-                                                                 MarketPriceWatcher::Keyboards[:stop_tracking].call(id)
-                                                               ],
-                                                               [
-                                                                 MarketPriceWatcher::Keyboards[:hide_products].call
-                                                               ]
-                                                             ])
-            },
           buy: lambda { |url|
             Telegram::Bot::Types::InlineKeyboardButton.new(text: "\u{2705} Купить", url: url)
           },
