@@ -8,9 +8,15 @@ module MarketPriceWatcher
       def messages
         {
           goodbye: -> { 'Надеюсь ты еще вернешься :)' },
+
           request_url: lambda {
             'Пришлите мне URL адрес товара, цену которого хотите отслеживать, либо выберите одну из опций меню 👇🏼'
           },
+
+          already_tracked_product: lambda do |id|
+            "🔅 Товар с артикулом #{id} пропущен, так как добавлялся в список отслеживания ранее."
+          end,
+
           show_product: lambda do |title, source_url, price, created_at, index|
             <<~TEXT
               #{index}. [#{title}](#{source_url})
@@ -18,6 +24,7 @@ module MarketPriceWatcher
               Отслеживание начато: #{MarketPriceWatcher::Utils::DaysUntilToday.call(created_at)} дня(ей) назад
             TEXT
           end,
+
           add_product: lambda do
             <<~TEXT
               💻 На компьютере: пришлите ссылку на товар, цену которого хотите отслеживать.
@@ -25,6 +32,34 @@ module MarketPriceWatcher
               ℹ️ Каждый раз нажимать данную кнопку для добавления товара совсем необязательно, просто присылайте ссылку или делитесь ссылкой из приложения.
             TEXT
           end,
+
+          start_tracking: lambda do |title, source_url, price|
+            <<-TEXT.gsub(/^\s+/, '')
+              🎬 Начат мониторинг цены и наличия
+              [#{title}](#{source_url})
+              Текущая цена: #{MarketPriceWatcher::PriceFormatter.format(price)}
+            TEXT
+          end,
+
+          price_change: lambda do |title, source_url, new_price, prev_price, max_price, min_price, created_at|
+            difference = new_price - prev_price
+            percent_change = ((new_price - prev_price) / prev_price) * 100
+            emoji = difference.positive? ? '↗️↗️↗️' : '↘️↘️↘️'
+            up_or_down = difference.positive? ? 'увеличилась' : 'уменьшилась'
+            format_price = ->(price) { MarketPriceWatcher::PriceFormatter.format(price) }
+
+            <<-TEXT.gsub(/^\s+/, '')
+              #{emoji} Цена #{up_or_down} на #{format_price.call(difference)} (#{format('%.2f%%', percent_change)})
+              [#{title}](#{source_url})
+
+              Цена: #{format_price.call(new_price)} (было: #{format_price.call(prev_price)})
+
+              Мин. цена: #{format_price.call(min_price)}
+              Макс. цена: #{format_price.call(max_price)}
+              Отслеживание начато: #{MarketPriceWatcher::Utils::DaysUntilToday.call(created_at)} дня(ей) назад
+            TEXT
+          end,
+
           help: lambda do
             <<~TEXT
               ❓ Бот платный?

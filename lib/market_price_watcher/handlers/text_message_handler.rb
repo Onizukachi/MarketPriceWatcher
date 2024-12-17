@@ -77,7 +77,19 @@ module MarketPriceWatcher
       end
 
       def handle_url(chat_id, message)
-        MarketPriceWatcher::Services::UrlHandlerService.new(chat_id:, message:).call
+        product = MarketPriceWatcher::Services::UrlHandlerService.new(chat_id:, message:, message_sender:).call
+
+        reply_markup = MarketPriceWatcher::Keyboards[:inline_product].call(product[:id], product[:source_url])
+        text = MarketPriceWatcher::Messages[:start_tracking].call(product[:title], product[:source_url], product[:price])
+
+        message_sender.call(parse_mode: 'Markdown', chat_id:, text:, reply_markup:)
+      rescue NotValidUrlError
+        text = MarketPriceWatcher::Messages[:request_url].call
+        message_sender.call(chat_id:, text:)
+      rescue AlreadyTrackedProductError => e
+        byebug
+        text = MarketPriceWatcher::Messages[:already_tracked_product].call(e.message.to_i)
+        message_sender.call(chat_id:, text:)
       end
     end
   end

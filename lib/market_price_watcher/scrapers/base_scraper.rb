@@ -6,7 +6,7 @@ module MarketPriceWatcher
       attr_reader :url
 
       def initialize(url)
-        @url = url #  URI.parse(url)
+        @url = URI.parse(url)
       end
 
       def fetch_product_details
@@ -19,6 +19,12 @@ module MarketPriceWatcher
 
       def market
         raise 'Not implemented'
+      end
+
+      private
+
+      def query_hash
+        Hash[URI.decode_www_form(url.query)]
       end
     end
   end

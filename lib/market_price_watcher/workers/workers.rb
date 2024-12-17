@@ -1,1 +1,1 @@
-Dir.glob("#{__dir__}/**/*.rb").sort.each(&method(:require))
+Dir.glob("#{__dir__}/**/*_worker.rb").sort.each(&method(:require))
