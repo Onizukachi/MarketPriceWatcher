@@ -6,6 +6,7 @@ module MarketPriceWatcher
 
     register(:product_mapper) { MarketPriceWatcher::DB::Mappers::ProductMapper }
     register(:price_history_mapper) { MarketPriceWatcher::DB::Mappers::PriceHistoryMapper }
+    register(:quantity_history_mapper) { MarketPriceWatcher::DB::Mappers::QuantityHistoryMapper }
 
     register(:product_repository) do
       MarketPriceWatcher::DB::Repositories::ProductRepository.new(db_adapter: Container.resolve(:db_adapter),
@@ -14,6 +15,10 @@ module MarketPriceWatcher
     register(:price_history_repository) do
       MarketPriceWatcher::DB::Repositories::PriceHistoryRepository.new(db_adapter: Container.resolve(:db_adapter),
                                                                        mapper: Container.resolve(:price_history_mapper))
+    end
+    register(:quantity_history_repository) do
+      MarketPriceWatcher::DB::Repositories::PriceHistoryRepository.new(db_adapter: Container.resolve(:db_adapter),
+                                                                       mapper: Container.resolve(:quantity_history_mapper))
     end
   end
 

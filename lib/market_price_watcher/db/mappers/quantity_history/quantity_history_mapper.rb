@@ -1,12 +1,12 @@
 module MarketPriceWatcher
   module DB
     module Mappers
-      class PriceHistoryMapper < BaseMapper
+      class QuantityHistoryMapper < BaseMapper
         class << self
           def to_domain(entity)
-            MarketPriceWatcher::Models::PriceHistory.new(
+            MarketPriceWatcher::Models::QuantityHistory.new(
               entity['product_id'].to_i,
-              entity['price'].to_i
+              entity['quantity'].to_i
             )
           end
         end

@@ -20,21 +20,20 @@ module MarketPriceWatcher
         scraper = create_scraper(product.source_url)
         scrapped_product_data = scraper.fetch_product_details
 
-        current_price = current_price(product.id)
+        current_price = current_price(product.id).price
         new_price = scrapped_product_data[:price]
 
         return if current_price == new_price
 
         create_price_history(product.id, new_price)
-        max_price = max_price(product.id).price
-        min_price = min_price(product.id).price
+        max_price, min_price = [max_price(product.id), min_price(product.id)].map(&:price).map(&:to_i)
 
         text = MarketPriceWatcher::Messages[:price_change].call(product.title, product.source_url,
                                                                 new_price, current_price,
                                                                 max_price, min_price, product.created_at)
         reply_markup = MarketPriceWatcher::Keyboards[:inline_product].call(product.id, product.source_url)
 
-        message_sender.call(chat_id: product.chat_id, text:, reply_markup:)
+        message_sender.call(parse_mode: 'Markdown', chat_id: product.chat_id, text:, reply_markup:)
       end
 
       private
@@ -60,7 +59,7 @@ module MarketPriceWatcher
       end
 
       def create_price_history(product_id, price)
-        price_history_repository.create(product_id: product_id, price: price)
+        price_history_repository.create(product_id:, price:)
       end
     end
   end

@@ -7,6 +7,7 @@ module MarketPriceWatcher
 
       def initialize(chat_id:, **deps)
         @chat_id = chat_id
+
         super(**deps)
       end
 

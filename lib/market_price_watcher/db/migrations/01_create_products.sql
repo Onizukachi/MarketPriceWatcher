@@ -1,6 +1,7 @@
--- 1. Создание таблицы продуктов
+-- 1. Creating a product table
 CREATE TABLE IF NOT EXISTS products (
-                                        id BIGINT PRIMARY KEY,
+                                        id SERIAL PRIMARY KEY,
+                                        source_id BIGINT NOT NULL,
                                         title TEXT NOT NULL,
                                         chat_id BIGINT NOT NULL,
                                         market TEXT NOT NULL,
@@ -8,4 +9,5 @@ CREATE TABLE IF NOT EXISTS products (
                                         created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
-CREATE UNIQUE INDEX IF NOT EXISTS unique_products_index ON products (id, chat_id, market);
+-- An index for the uniqueness of added products within a single chat
+CREATE UNIQUE INDEX IF NOT EXISTS unique_products_index ON products (source_id, chat_id, market);

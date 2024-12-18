@@ -25,6 +25,12 @@ module MarketPriceWatcher
             TEXT
           end,
 
+          empty_products: lambda do
+            <<~TEXT
+              Пока не отслеживается цена ни одного товара! Пришлите ссылку на товар, чтобы начать отслеживать его цену.
+            TEXT
+          end,
+
           add_product: lambda do
             <<~TEXT
               💻 На компьютере: пришлите ссылку на товар, цену которого хотите отслеживать.
@@ -37,16 +43,16 @@ module MarketPriceWatcher
             <<-TEXT.gsub(/^\s+/, '')
               🎬 Начат мониторинг цены и наличия
               [#{title}](#{source_url})
-              Текущая цена: #{MarketPriceWatcher::PriceFormatter.format(price)}
+              Текущая цена: #{MarketPriceWatcher::Utils::PriceFormatter.format(price)}
             TEXT
           end,
 
           price_change: lambda do |title, source_url, new_price, prev_price, max_price, min_price, created_at|
             difference = new_price - prev_price
-            percent_change = ((new_price - prev_price) / prev_price) * 100
+            percent_change = ((new_price - prev_price) * 1.0 / prev_price) * 100
             emoji = difference.positive? ? '↗️↗️↗️' : '↘️↘️↘️'
             up_or_down = difference.positive? ? 'увеличилась' : 'уменьшилась'
-            format_price = ->(price) { MarketPriceWatcher::PriceFormatter.format(price) }
+            format_price = ->(price) { MarketPriceWatcher::Utils::PriceFormatter.format(price) }
 
             <<-TEXT.gsub(/^\s+/, '')
               #{emoji} Цена #{up_or_down} на #{format_price.call(difference)} (#{format('%.2f%%', percent_change)})

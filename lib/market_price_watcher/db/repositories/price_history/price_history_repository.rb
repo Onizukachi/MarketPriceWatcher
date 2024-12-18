@@ -33,7 +33,7 @@ module MarketPriceWatcher
         private
 
         def table_name
-          'price_histories'
+          'price_history'
         end
 
         def connection

@@ -13,7 +13,7 @@ module MarketPriceWatcher
           main_menu: lambda {
             Telegram::Bot::Types::ReplyKeyboardMarkup.new(
               keyboard: [
-                [{ text: "\u{1F4E6} Мои товары" }, { text: "\u{2795} Добавить товары" }],
+                [{ text: "\u{1F4E6} Мои товары" }, { text: "\u{2795} Добавить товар" }],
                 [{ text: "\u{2753} О боте / Помощь" }]
               ],
               resize_keyboard: true

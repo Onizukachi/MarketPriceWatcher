@@ -11,7 +11,7 @@ module MarketPriceWatcher
         product_size = extract_product_size(product)
 
         {
-          id: product['id'],
+          source_id: product['id'],
           title: product['name'],
           price: product_size['price']['product'],
           total_quantity: product['totalQuantity'],
@@ -31,7 +31,7 @@ module MarketPriceWatcher
       private
 
       def query_product_size
-        query_hash['size'].to_i
+        query_hash['size']
       end
 
       def extract_product(body)
@@ -41,7 +41,7 @@ module MarketPriceWatcher
       def extract_product_size(product)
         return product['sizes'].first unless query_product_size
 
-        product['sizes'].find { |row| row['optionId'] == query_product_size }
+        product['sizes'].find { |row| row['optionId'].to_i == query_product_size.to_i }
       end
 
       def build_params

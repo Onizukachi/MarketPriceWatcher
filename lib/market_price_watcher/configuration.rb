@@ -5,7 +5,7 @@ module MarketPriceWatcher
     def initialize
       @telegram_token = '7793281977:AAGN5f1VsrQyvJUwSeXD8_Tk2nQ_DDLHo5Q'
       @proxy_url = 'socks://89.22.238.204:43555'
-      @track_interval = '5s'
+      @track_interval = '15s'
     end
   end
 
