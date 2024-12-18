@@ -1,8 +1,3 @@
-require 'dotenv'
-require 'dry-container'
-require 'dry-auto_inject'
-require 'byebug' # For testing
-
 # App configuration
 require_relative 'market_price_watcher/configuration'
 
