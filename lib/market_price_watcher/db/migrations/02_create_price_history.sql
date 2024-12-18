@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS price_history (
                                         product_id BIGINT NOT NULL,
                                         price BIGINT NOT NULL,
                                         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-                                        FOREIGN KEY (product_id) REFERENCES products(id)
+                                        FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
 
 -- Index to speed up queries by product_id

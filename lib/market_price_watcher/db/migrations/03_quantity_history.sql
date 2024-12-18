@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS quantity_history (
                                                product_id BIGINT NOT NULL,
                                                quantity BIGINT NOT NULL,
                                                created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-                                               FOREIGN KEY (product_id) REFERENCES products(id)
+                                               FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
 
 -- Index to speed up queries by product_id

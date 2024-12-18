@@ -47,6 +47,12 @@ module MarketPriceWatcher
             TEXT
           end,
 
+          remove_from_tracking: lambda do |id|
+            <<~TEXT
+              ❗️ Товар с артикулом #{id} удалён из списка отслеживания!
+            TEXT
+          end,
+
           price_change: lambda do |title, source_url, new_price, prev_price, max_price, min_price, created_at|
             difference = new_price - prev_price
             percent_change = ((new_price - prev_price) * 1.0 / prev_price) * 100

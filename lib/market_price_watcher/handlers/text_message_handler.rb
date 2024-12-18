@@ -7,10 +7,10 @@ module MarketPriceWatcher
         @message_sender = message_sender
       end
 
-      def process(message)
-        chat_id = chat_id(message)
+      def process(event)
+        chat_id = chat_id(event)
 
-        case message.text
+        case event.text
         when '/start'
           start(chat_id)
         when '/stop'
@@ -24,14 +24,14 @@ module MarketPriceWatcher
         when /Помощь/
           help(chat_id)
         else
-          handle_url(chat_id, message.text)
+          handle_url(chat_id, event.text)
         end
       end
 
       private
 
-      def chat_id(message)
-        message.chat.id
+      def chat_id(event)
+        event.chat.id
       end
 
       def start(chat_id)

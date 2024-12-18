@@ -12,12 +12,12 @@ module MarketPriceWatcher
     end
 
     def start
-      bot.listen do |message|
-        case message
+      bot.listen do |event|
+        case event
         when Telegram::Bot::Types::Message
-          message_handler.process(message)
+          message_handler.process(event)
         when Telegram::Bot::Types::CallbackQuery
-          callback_handler.process(message)
+          callback_handler.process(event)
         end
       end
     end
