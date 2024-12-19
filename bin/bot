@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require './lib/market_price_watcher'
+require 'dotenv/load'
+
+MarketPriceWatcher::DB::Migrator.new.apply
+
+bot = MarketPriceWatcher::BotRunner.new
+bot.start

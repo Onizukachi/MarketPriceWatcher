@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    user: "${UID:-1000}:${GID:-1000}"
+    ports:
+      - "443:443"
+    env_file:
+      - ".env"
+    tty: true
+    depends_on:
+      postgres:
+        condition: "service_started"
+    volumes:
+      - .:/market_price_watcher
+      - gem_cache:/usr/local/bundle/gems
+    command: ["bin/bot"]
+
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5445:5432"
+    env_file:
+      - ".env"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: pg_isready -U postgres
+      interval: 2s
+      timeout: 5s
+      retries: 30
+
+volumes:
+  gem_cache:
+  pg_data:

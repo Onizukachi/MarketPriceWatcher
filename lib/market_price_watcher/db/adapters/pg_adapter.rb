@@ -33,11 +33,11 @@ module MarketPriceWatcher
 
         def build_connection
           connection_params = {
-            dbname: ENV['DB_NAME'],
-            user: ENV['DB_USERNAME'],
-            password: ENV['DB_PASSWORD'],
-            host: ENV['DB_HOST'],
-            port: ENV['DB_PORT']
+            dbname: ENV['POSTGRES_DB'],
+            user: ENV['POSTGRES_USER'],
+            password: ENV['POSTGRES_PASSWORD'],
+            host: ENV['POSTGRES_HOST'],
+            port: ENV['POSTGRES_PORT']
           }
 
           @connection = PG.connect(connection_params)

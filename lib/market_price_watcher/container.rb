@@ -1,3 +1,6 @@
+require 'dry/container'
+require 'dry/auto_inject'
+
 module MarketPriceWatcher
   module Container
     extend Dry::Container::Mixin

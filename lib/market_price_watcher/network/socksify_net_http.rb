@@ -1,5 +1,3 @@
-require 'socksify/http'
-
 module MarketPriceWatcher
   module Network
     # redirects any TCP connection initiated by a Ruby script through a SOCKS5 proxy

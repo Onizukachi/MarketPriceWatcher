@@ -11,12 +11,10 @@ module MarketPriceWatcher
         chat_id = chat_id(event)
 
         case event.text
-        when '/start'
-          start(chat_id)
+        when '/start', '/menu'
+          show_menu(chat_id)
         when '/stop'
           stop(chat_id)
-        when '/menu'
-          show_menu(chat_id)
         when /Мои товары/
           show_products(chat_id)
         when /Добавить товар/
@@ -32,10 +30,6 @@ module MarketPriceWatcher
 
       def chat_id(event)
         event.chat.id
-      end
-
-      def start(chat_id)
-        show_menu(chat_id)
       end
 
       def stop(chat_id)
