@@ -45,12 +45,14 @@ cp .env .env.example
 
 Copy the token into you `.env` file in the variable `TELEGRAM_TOKEN =` with token provided by BotFather
 
-if you are working without docker, install all gems 
-and put the data to connect to your postgres database in `.env`
+If you are working without docker, install all gems 
+
 
 ```
 bundle install
 ```
+
+and put the data to connect to your postgres database in `.env`
 
 ### Start the bot
 
