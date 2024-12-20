@@ -21,3 +21,25 @@ Using docker:
 Local install:
 - **Ruby version**: Ruby 3.0 or higher is required.
 
+### Installation
+
+Clone the repo
+
+```
+https://github.com/Onizukachi/MarketPriceWatcher.git
+```
+
+ Move to project folder
+
+```
+cd MarketPriceWatcher
+```
+
+Create .env file
+
+```
+cp .env .env.example
+```
+
+[Create](https://core.telegram.org/bots/tutorial) a bot in telegram and get a token
+
