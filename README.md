@@ -15,9 +15,9 @@ MarketPriceWatcher is a bot for tracking prices and other meta information on pr
 
 ### Requirements
 
-## Using docker
+Using docker:
 - [Docker](https://docs.docker.com/engine/install/) and [Docker Compose](https://docs.docker.com/compose/install/)
 
-## Local install
+Local install:
 - **Ruby version**: Ruby 3.0 or higher is required.
 
