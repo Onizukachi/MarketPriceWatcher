@@ -41,11 +41,11 @@ Create .env file
 cp .env .env.example
 ```
 
-[Create](https://core.telegram.org/bots/tutorial) a bot in telegram and get a token
+[Create](https://core.telegram.org/bots/tutorial) a bot in telegram and get a token 
 
 Copy the token into you `.env` file in the variable `TELEGRAM_TOKEN =` with token provided by BotFather
 
-if you are working without docker, install all gems
+if you are working without docker, install all gems and put the data to connect to your postgres database in `.env'
 
 ```
 bundle install
