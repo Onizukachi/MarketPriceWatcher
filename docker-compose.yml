@@ -6,18 +6,15 @@ services:
       context: .
       dockerfile: Dockerfile
     user: "${UID:-1000}:${GID:-1000}"
-    ports:
-      - "443:443"
     env_file:
       - ".env"
     tty: true
     depends_on:
       postgres:
-        condition: "service_started"
+        condition: service_healthy
     volumes:
       - .:/market_price_watcher
       - gem_cache:/usr/local/bundle/gems
-    command: ["bin/bot"]
 
   postgres:
     image: postgres:16-alpine
@@ -28,10 +25,10 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
     healthcheck:
-      test: pg_isready -U postgres
-      interval: 2s
+      test: ["CMD-SHELL", "pg_isready -q -d $POSTGRES_DB -U $POSTGRES_USER"]
+      interval: 5s
       timeout: 5s
-      retries: 30
+      retries: 5
 
 volumes:
   gem_cache:

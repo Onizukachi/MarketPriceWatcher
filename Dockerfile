@@ -22,4 +22,4 @@ COPY . ./
 RUN chmod +x ./bin/bot
 
 # Run bot
-CMD ["bin/bot"]
+ENTRYPOINT ["bin/bot"]
