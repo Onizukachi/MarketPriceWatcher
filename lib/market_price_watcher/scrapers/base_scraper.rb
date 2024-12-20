@@ -24,6 +24,8 @@ module MarketPriceWatcher
       private
 
       def query_hash
+        return Hash.new unless url.query
+
         Hash[URI.decode_www_form(url.query)]
       end
     end
