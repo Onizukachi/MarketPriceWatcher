@@ -69,3 +69,19 @@ chmod +x ./bin/bot
 bin/bot
 ```
 
+## Author
+
+👤 **Alexey Glazkov**
+
+- GitHub: [@Onizukachi](https://github.com/Onizukachi)
+- Telegram: [@onizukachi](https://t.me/onizukachi)
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+
+Feel free to check the [issues page](https://github.com/Onizukachi/MarketPriceWatcher/issues).
+
+## Show your support
+
+Give a ⭐️ if you like this project!
