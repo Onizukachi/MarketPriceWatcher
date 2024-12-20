@@ -7,12 +7,19 @@ module MarketPriceWatcher
       SSL_OPTS = { verify: false }.freeze
 
       def connection
-        proxy_url = MarketPriceWatcher.config.proxy_url
-
-        @connection ||= Faraday.new(proxy: proxy_url, ssl: SSL_OPTS) do |f|
+        @connection ||= Faraday.new(connection_options) do |f|
           f.response :logger
           f.adapter :net_http
         end
+      end
+
+      def connection_options
+        proxy_url = MarketPriceWatcher.config.proxy_url
+
+        options = { ssl: SSL_OPTS }
+        options[:proxy] = proxy_url if proxy_url
+
+        options
       end
     end
   end
