@@ -43,3 +43,26 @@ cp .env .env.example
 
 [Create](https://core.telegram.org/bots/tutorial) a bot in telegram and get a token
 
+Copy the token into you .env file in the variable (TELEGRAM_TOKEN =) with token provided by BotFather
+
+if you are working without docker, install all gems
+
+```
+bundle install
+```
+
+### Start the bot
+
+Using docker
+
+```
+docker-compose up --build
+```
+
+Local
+
+```
+chmod +x ./bin/bot
+bin/bot
+```
+
