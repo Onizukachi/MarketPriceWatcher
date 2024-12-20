@@ -3,6 +3,7 @@
 [![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop/rubocop)
 
 MarketPriceWatcher is a bot for tracking prices and other meta information on products on popular marketplaces. It allows you to flexibly configure triggers for notifications, and receive notifications in the channel when the monitored parameters change.
+
 <img width="1119" alt="image" src="https://github.com/user-attachments/assets/fa6aec65-8a3e-49ce-a9ed-1cf8a3e0c877" />
 
 ## Functionality
