@@ -4,7 +4,7 @@
 
 MarketPriceWatcher is a bot for tracking prices and other meta information on products on popular marketplaces. It allows you to flexibly configure triggers for notifications, and receive notifications in the channel when the monitored parameters change.
 
-# Functionality
+## Functionality
 
 1. Displaying a list of tracked items
 2. Adding an item for tracking
