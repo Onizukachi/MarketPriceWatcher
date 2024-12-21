@@ -11,14 +11,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Run command on remote server
-        uses: D3rHase/ssh-command-action@v0.2.2
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@v1.2.0
         with:
-          host: ${{secrets.SSH_HOST}}
-          port: ${{secrets.SSH_PORT}}
-          user: ${{secrets.SSH_USER}}
-          private_key: ${{secrets.SSH_PRIVATE_KEY}}
-          command: |
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
             cd ${{ secrets.PROJECT_FOLDER }};
             git checkout main;
             git pull;
