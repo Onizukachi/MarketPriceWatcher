@@ -18,4 +18,10 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          script: whoami
+          script: |
+            cd ${{ secrets.PROJECT_FOLDER }};
+            git checkout main;
+            git pull;
+            docker-compose down;
+            docker-compose up --build -d;
+            docker system prune --all --force;
