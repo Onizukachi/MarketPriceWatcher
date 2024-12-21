@@ -1,3 +1,4 @@
 .byebug_history
 .env
-.idea.qodo
+.idea
+.qodo
