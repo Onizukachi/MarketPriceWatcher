@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MarketPriceWatcher
   module Messages
     class << self
@@ -7,10 +9,10 @@ module MarketPriceWatcher
 
       def messages
         {
-          goodbye: -> { 'Надеюсь ты еще вернешься :)' },
+          goodbye: -> { "Надеюсь ты еще вернешься :)" },
 
           request_url: lambda {
-            'Пришлите мне URL адрес товара, цену которого хотите отслеживать, либо выберите одну из опций меню 👇🏼'
+            "Пришли мне URL адрес товара, цену которого хотите отслеживать, либо выберите одну из опций меню 👇🏼"
           },
 
           already_tracked_product: lambda do |id|
@@ -40,7 +42,7 @@ module MarketPriceWatcher
           end,
 
           start_tracking: lambda do |title, source_url, price|
-            <<-TEXT.gsub(/^\s+/, '')
+            <<-TEXT.gsub(/^\s+/, "")
               🎬 Начат мониторинг цены и наличия
               [#{title}](#{source_url})
               Текущая цена: #{MarketPriceWatcher::Utils::PriceFormatter.format(price)}
@@ -56,12 +58,12 @@ module MarketPriceWatcher
           price_change: lambda do |title, source_url, new_price, prev_price, max_price, min_price, created_at|
             difference = new_price - prev_price
             percent_change = ((new_price - prev_price) * 1.0 / prev_price) * 100
-            emoji = difference.positive? ? '↗️↗️↗️' : '↘️↘️↘️'
-            up_or_down = difference.positive? ? 'увеличилась' : 'уменьшилась'
+            emoji = difference.positive? ? "↗️↗️↗️" : "↘️↘️↘️"
+            up_or_down = difference.positive? ? "увеличилась" : "уменьшилась"
             format_price = ->(price) { MarketPriceWatcher::Utils::PriceFormatter.format(price) }
 
-            <<-TEXT.gsub(/^\s+/, '')
-              #{emoji} Цена #{up_or_down} на #{format_price.call(difference)} (#{format('%.2f%%', percent_change)})
+            <<-TEXT.gsub(/^\s+/, "")
+              #{emoji} Цена #{up_or_down} на #{format_price.call(difference)} (#{'%.2f%%' % percent_change})
               [#{title}](#{source_url})
 
               Цена: #{format_price.call(new_price)} (было: #{format_price.call(prev_price)})

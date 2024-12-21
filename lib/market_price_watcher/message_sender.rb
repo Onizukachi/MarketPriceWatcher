@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MarketPriceWatcher
   class MessageSender
     attr_reader :bot

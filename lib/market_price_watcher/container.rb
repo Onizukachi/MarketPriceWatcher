@@ -1,5 +1,7 @@
-require 'dry/container'
-require 'dry/auto_inject'
+# frozen_string_literal: true
+
+require "dry/container"
+require "dry/auto_inject"
 
 module MarketPriceWatcher
   module Container
@@ -16,12 +18,16 @@ module MarketPriceWatcher
                                                                   mapper: Container.resolve(:product_mapper))
     end
     register(:price_history_repository) do
-      MarketPriceWatcher::DB::Repositories::PriceHistoryRepository.new(db_adapter: Container.resolve(:db_adapter),
-                                                                       mapper: Container.resolve(:price_history_mapper))
+      MarketPriceWatcher::DB::Repositories::PriceHistoryRepository.new(
+        db_adapter: Container.resolve(:db_adapter),
+        mapper: Container.resolve(:price_history_mapper)
+      )
     end
     register(:quantity_history_repository) do
-      MarketPriceWatcher::DB::Repositories::PriceHistoryRepository.new(db_adapter: Container.resolve(:db_adapter),
-                                                                       mapper: Container.resolve(:quantity_history_mapper))
+      MarketPriceWatcher::DB::Repositories::PriceHistoryRepository.new(
+        db_adapter: Container.resolve(:db_adapter),
+        mapper: Container.resolve(:quantity_history_mapper)
+      )
     end
   end
 

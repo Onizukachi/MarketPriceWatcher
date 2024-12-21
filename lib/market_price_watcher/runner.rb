@@ -1,11 +1,13 @@
-require 'telegram/bot'
+# frozen_string_literal: true
+
+require "telegram/bot"
 
 module MarketPriceWatcher
   class BotRunner
     attr_reader :bot, :message_sender, :message_handler, :callback_handler
 
     def initialize
-      @bot = Telegram::Bot::Client.new(ENV['TELEGRAM_BOT_TOKEN'])
+      @bot = Telegram::Bot::Client.new(ENV["TELEGRAM_BOT_TOKEN"])
       @message_sender = MarketPriceWatcher::MessageSender.new(bot)
       @message_handler = MarketPriceWatcher::Handlers::TextMessageHandler.new(message_sender)
       @callback_handler = MarketPriceWatcher::Handlers::CallbackHandler.new(message_sender)

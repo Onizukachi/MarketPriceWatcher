@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MarketPriceWatcher
   module DB
     class Migrator
@@ -5,7 +7,7 @@ module MarketPriceWatcher
 
       attr_reader :path
 
-      def initialize(path: '/migrations', **deps)
+      def initialize(path: "/migrations", **deps)
         @path = path
         super(**deps)
       end

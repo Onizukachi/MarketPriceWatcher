@@ -1,8 +1,9 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
-require 'bundler/setup'
-require './lib/market_price_watcher'
-require 'dotenv/load'
+require "bundler/setup"
+require "./lib/market_price_watcher"
+require "dotenv/load"
 
 MarketPriceWatcher::DB::Migrator.new.apply
 

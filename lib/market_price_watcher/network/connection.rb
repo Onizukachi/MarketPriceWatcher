@@ -1,10 +1,12 @@
-require 'faraday'
-require_relative 'socksify_net_http'
+# frozen_string_literal: true
+
+require "faraday"
+require_relative "socksify_net_http"
 
 module MarketPriceWatcher
   module Network
     module Connection
-      SSL_OPTS = { verify: false }.freeze
+      SSL_OPTS = {verify: false}.freeze
 
       def connection
         @connection ||= Faraday.new(connection_options) do |f|
@@ -16,7 +18,7 @@ module MarketPriceWatcher
       def connection_options
         proxy_url = MarketPriceWatcher.config.proxy_url
 
-        options = { ssl: SSL_OPTS }
+        options = {ssl: SSL_OPTS}
         options[:proxy] = proxy_url if proxy_url
 
         options

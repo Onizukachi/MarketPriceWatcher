@@ -1,4 +1,6 @@
-require_relative '../common_sql_crud_impl'
+# frozen_string_literal: true
+
+require_relative "../common_sql_crud_impl"
 
 module MarketPriceWatcher
   module DB
@@ -33,7 +35,7 @@ module MarketPriceWatcher
         private
 
         def table_name
-          'price_history'
+          "price_history"
         end
 
         def connection

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MarketPriceWatcher
   module Handlers
     class TextMessageHandler
@@ -11,9 +13,9 @@ module MarketPriceWatcher
         chat_id = chat_id(event)
 
         case event.text
-        when '/start', '/menu'
+        when "/start", "/menu"
           show_menu(chat_id)
-        when '/stop'
+        when "/stop"
           stop(chat_id)
         when /Мои товары/
           show_products(chat_id)
@@ -58,7 +60,7 @@ module MarketPriceWatcher
                                                                     product[:price], product[:created_at], index + 1)
             reply_markup = MarketPriceWatcher::Keyboards[:inline_product].call(product[:id], product[:source_url])
 
-            message_sender.call(parse_mode: 'Markdown', chat_id:, text:, reply_markup:)
+            message_sender.call(parse_mode: "Markdown", chat_id:, text:, reply_markup:)
           end
         end
       end
@@ -79,9 +81,10 @@ module MarketPriceWatcher
         product = MarketPriceWatcher::Services::UrlHandlerService.new(chat_id:, message:, message_sender:).call
 
         reply_markup = MarketPriceWatcher::Keyboards[:inline_product].call(product[:id], product[:source_url])
-        text = MarketPriceWatcher::Messages[:start_tracking].call(product[:title], product[:source_url], product[:price])
+        text = MarketPriceWatcher::Messages[:start_tracking].call(product[:title], product[:source_url],
+                                                                  product[:price])
 
-        message_sender.call(parse_mode: 'Markdown', chat_id:, text:, reply_markup:)
+        message_sender.call(parse_mode: "Markdown", chat_id:, text:, reply_markup:)
       rescue MarketPriceWatcher::Services::UrlHandlerService::NotValidUrlError
         text = MarketPriceWatcher::Messages[:request_url].call
         message_sender.call(chat_id:, text:)

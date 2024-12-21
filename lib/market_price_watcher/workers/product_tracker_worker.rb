@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MarketPriceWatcher
   module Workers
     class ProductTrackerWorker
@@ -33,7 +35,7 @@ module MarketPriceWatcher
                                                                 max_price, min_price, product.created_at)
         reply_markup = MarketPriceWatcher::Keyboards[:inline_product].call(product.id, product.source_url)
 
-        message_sender.call(parse_mode: 'Markdown', chat_id: product.chat_id, text:, reply_markup:)
+        message_sender.call(parse_mode: "Markdown", chat_id: product.chat_id, text:, reply_markup:)
       end
 
       private
@@ -64,4 +66,3 @@ module MarketPriceWatcher
     end
   end
 end
-

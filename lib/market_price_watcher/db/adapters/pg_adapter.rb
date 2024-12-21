@@ -1,5 +1,7 @@
-require 'pg'
-require 'singleton'
+# frozen_string_literal: true
+
+require "pg"
+require "singleton"
 
 module MarketPriceWatcher
   module DB
@@ -33,11 +35,11 @@ module MarketPriceWatcher
 
         def build_connection
           connection_params = {
-            dbname: ENV['POSTGRES_DB'],
-            user: ENV['POSTGRES_USER'],
-            password: ENV['POSTGRES_PASSWORD'],
-            host: ENV['POSTGRES_HOST'],
-            port: ENV['POSTGRES_PORT']
+            dbname: ENV["POSTGRES_DB"],
+            user: ENV["POSTGRES_USER"],
+            password: ENV["POSTGRES_PASSWORD"],
+            host: ENV["POSTGRES_HOST"],
+            port: ENV["POSTGRES_PORT"]
           }
 
           @connection = PG.connect(connection_params)

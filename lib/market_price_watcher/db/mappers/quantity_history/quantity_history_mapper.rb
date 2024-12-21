@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MarketPriceWatcher
   module DB
     module Mappers
@@ -5,8 +7,8 @@ module MarketPriceWatcher
         class << self
           def to_domain(entity)
             MarketPriceWatcher::Models::QuantityHistory.new(
-              entity['product_id'].to_i,
-              entity['quantity'].to_i
+              entity["product_id"].to_i,
+              entity["quantity"].to_i
             )
           end
         end

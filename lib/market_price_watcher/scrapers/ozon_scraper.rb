@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module MarketPriceWatcher
   module Scrapers
     class OzonScraper < BaseScraper
-      ORIGIN = 'https://www.wildberries.ru'.freeze
-      API_HOST = 'https://card.wb.ru/cards/v2/detail'.freeze
+      ORIGIN = "https://www.wildberries.ru"
+      API_HOST = "https://card.wb.ru/cards/v2/detail"
 
       def fetch_product_details
         response = connection.get(API_HOST, build_params, build_headers)
@@ -11,10 +13,10 @@ module MarketPriceWatcher
         product_size = extract_product_size(product)
 
         {
-          id: product['id'],
-          title: product['name'],
-          price: product_size['price']['product'],
-          total_quantity: product['totalQuantity']
+          id: product["id"],
+          title: product["name"],
+          price: product_size["price"]["product"],
+          total_quantity: product["totalQuantity"]
         }
       end
 
@@ -23,7 +25,7 @@ module MarketPriceWatcher
       end
 
       def market
-        'ozon'
+        "ozon"
       end
 
       private
@@ -33,24 +35,24 @@ module MarketPriceWatcher
       end
 
       def extract_product(body)
-        body['data']['products'].find { |row| row['id'] == product_id }
+        body["data"]["products"].find { |row| row["id"] == product_id }
       end
 
       def extract_product_size(product)
-        return product['sizes'].first unless query_product_size
+        return product["sizes"].first unless query_product_size
 
-        product['sizes'].find { |row| row['optionId'] == query_product_size }
+        product["sizes"].find { |row| row["optionId"] == query_product_size }
       end
 
       def build_params
         {
-          appType: '1',
-          curr: 'rub',
-          dest: '-1257786',
-          locale: 'ru',
-          spp: '30',
-          lang: 'ru',
-          ab_testing: 'false',
+          appType: "1",
+          curr: "rub",
+          dest: "-1257786",
+          locale: "ru",
+          spp: "30",
+          lang: "ru",
+          ab_testing: "false",
           nm: product_id.to_s
         }
       end
@@ -58,19 +60,19 @@ module MarketPriceWatcher
       def build_headers
         headers = {}
 
-        headers['accept'] = '*/*'
-        headers['accept-language'] = 'ru-RU,ru;q=0.9'
-        headers['origin'] = ORIGIN
-        headers['priority'] = 'u=1, i'
-        headers['referer'] = "#{ORIGIN}/catalog/#{product_id}/detail.aspx"
-        headers['sec-ch-ua'] = '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"'
-        headers['sec-ch-ua-mobile'] = '?0'
-        headers['sec-ch-ua-platform'] = '"macOS"'
-        headers['sec-fetch-dest'] = 'empty'
-        headers['sec-fetch-mode'] = 'cors'
-        headers['sec-fetch-site'] = 'cross-site'
-        headers['user-agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'\
-          '(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
+        headers["accept"] = "*/*"
+        headers["accept-language"] = "ru-RU,ru;q=0.9"
+        headers["origin"] = ORIGIN
+        headers["priority"] = "u=1, i"
+        headers["referer"] = "#{ORIGIN}/catalog/#{product_id}/detail.aspx"
+        headers["sec-ch-ua"] = '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"'
+        headers["sec-ch-ua-mobile"] = "?0"
+        headers["sec-ch-ua-platform"] = '"macOS"'
+        headers["sec-fetch-dest"] = "empty"
+        headers["sec-fetch-mode"] = "cors"
+        headers["sec-fetch-site"] = "cross-site"
+        headers["user-agent"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"\
+          "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
 
         headers
       end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MarketPriceWatcher
   module Keyboards
     class << self
@@ -13,8 +15,8 @@ module MarketPriceWatcher
           main_menu: lambda {
             Telegram::Bot::Types::ReplyKeyboardMarkup.new(
               keyboard: [
-                [{ text: "\u{1F4E6} Мои товары" }, { text: "\u{2795} Добавить товар" }],
-                [{ text: "\u{2753} О боте / Помощь" }]
+                [{text: "\u{1F4E6} Мои товары"}, {text: "\u{2795} Добавить товар"}],
+                [{text: "\u{2753} О боте / Помощь"}]
               ],
               resize_keyboard: true
             )
@@ -24,7 +26,8 @@ module MarketPriceWatcher
                                                              [
                                                                MarketPriceWatcher::Keyboards[:buy].call(source_url),
                                                                MarketPriceWatcher::Keyboards[:stop_tracking].call(id)
-                                                             ]])
+                                                             ]
+                                                           ])
           },
           buy: lambda { |url|
             Telegram::Bot::Types::InlineKeyboardButton.new(text: "\u{2705} Купить", url: url)
@@ -35,7 +38,7 @@ module MarketPriceWatcher
           },
           hide_products: lambda {
             Telegram::Bot::Types::InlineKeyboardButton.new(text: "\u{1F648} Скрыть список отслеживания",
-                                                           callback_data: '/hide_products')
+                                                           callback_data: "/hide_products")
           }
         }
       end

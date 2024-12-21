@@ -1,5 +1,7 @@
-require 'rufus-scheduler'
-require 'singleton'
+# frozen_string_literal: true
+
+require "rufus-scheduler"
+require "singleton"
 
 module MarketPriceWatcher
   class Scheduler
@@ -17,7 +19,7 @@ module MarketPriceWatcher
       end
     end
 
-    def respond_to_missing?(method_name, include_private = false)
+    def respond_to_missing?(method_name, include_private=false)
       @scheduler.respond_to?(method_name) || super
     end
   end

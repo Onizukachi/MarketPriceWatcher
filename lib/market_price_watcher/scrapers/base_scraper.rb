@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MarketPriceWatcher
   module Scrapers
     class BaseScraper
@@ -10,21 +12,21 @@ module MarketPriceWatcher
       end
 
       def fetch_product_details
-        raise 'Not implemented'
+        raise "Not implemented"
       end
 
       def product_id
-        raise 'Not implemented'
+        raise "Not implemented"
       end
 
       def market
-        raise 'Not implemented'
+        raise "Not implemented"
       end
 
       private
 
       def query_hash
-        return Hash.new unless url.query
+        return {} unless url.query
 
         Hash[URI.decode_www_form(url.query)]
       end
