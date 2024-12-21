@@ -11,4 +11,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-  
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: whoami
