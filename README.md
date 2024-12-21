@@ -28,7 +28,7 @@ Local install:
 Clone the repo
 
 ```
-https://github.com/Onizukachi/MarketPriceWatcher.git
+git clone https://github.com/Onizukachi/MarketPriceWatcher.git
 ```
 
  Move to project folder
@@ -40,7 +40,7 @@ cd MarketPriceWatcher
 Create .env file
 
 ```
-cp .env .env.example
+cp .env.example .env 
 ```
 
 [Create](https://core.telegram.org/bots/tutorial) a bot in telegram and get a token 
